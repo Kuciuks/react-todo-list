@@ -1,12 +1,15 @@
 import ToggleButton from './Components/ToggleButton.jsx'
-import ModeProvider from './Provider/ModeProvider.jsx'
+import { useMode } from './Provider/ModeProvider.jsx'
 import './Styles/App.css'
 
 function App() {
+
+    const {mode} = useMode() 
+
     return(
-        <ModeProvider>
-            <ToggleButton />
-        </ModeProvider>
+        <div className="container" style={{backgroundColor: mode == "dark" ? "white" : "black"}}>    
+                <ToggleButton />
+        </div>
     )
 }
 
