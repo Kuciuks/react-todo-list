@@ -18,6 +18,11 @@ const reducer = (state, action) =>{
                 ...state,
                 task: action.task
             }
+        case 'delete':
+            return {
+                ...state,
+                todos: state.todos.filter(todo => todo.id !== action.id)
+            }
     }
 }
 
@@ -44,7 +49,19 @@ export default function TodoComponent(){
         })
     }
 
-    console.log(state)
+    const handleDelete = (id) =>{
+        dispatch({
+            type: 'delete',
+            id: id
+        })
+    }
+
+    const handleEdit = (id) => {
+        dispatch({
+            type: 'edit',
+            id: id
+        })
+    }
 
     return(
         <div>
@@ -54,7 +71,11 @@ export default function TodoComponent(){
             />
             <button onClick={handleButtonClick}>Add</button>
             {state.todos.map((todo)=>(
-                <div key={todo.id}>{todo.task}</div>
+                <div key={todo.id}>
+                    {todo.task}
+                    <button onClick={() => handleDelete(todo.id)}>Delete</button>
+                    <button onClick={() => handleEdit(todo.id)}>Edit</button>
+                </div>
             ))}
         </div>
     )
