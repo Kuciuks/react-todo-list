@@ -4,13 +4,18 @@ import { useReducer } from "react"
 const reducer = (state, action) =>{
     switch(action.type){
         case 'addedTodo':
-            console.log("state: ",state,"\naction: ",action)
             return {
-                id: action.id,
-                task: action.task
+                task: "",
+                todos: [...state.todos,
+                    {
+                        id: action.id,
+                        task: action.task
+                    }
+                ]
             }
         case 'inputChange':
             return {
+                ...state,
                 task: action.task
             }
     }
@@ -27,7 +32,8 @@ export default function TodoComponent(){
     const handleButtonClick = () =>{
         dispatch({
             type: 'addedTodo',
-            id: ID++
+            id: ID++,
+            task: state.task
         })
     }
 
@@ -38,6 +44,8 @@ export default function TodoComponent(){
         })
     }
 
+    console.log(state)
+
     return(
         <div>
             <input 
@@ -45,6 +53,9 @@ export default function TodoComponent(){
             onChange={handleInputChange}
             />
             <button onClick={handleButtonClick}>Add</button>
+            {state.todos.map((todo)=>(
+                <div key={todo.id}>{todo.task}</div>
+            ))}
         </div>
     )
 }
