@@ -1,17 +1,13 @@
-import { useReducer } from "react"
+import { useReducer, useRef } from "react"
 
 
 const reducer = (state, action) =>{
     switch(action.type){
         case 'addedTodo':
             return {
-                task: "",
-                todos: [...state.todos,
-                    {
-                        id: action.id,
-                        task: action.task
-                    }
-                ]
+                ...state,
+                id: crypto.randomUUID(),
+                task: action.task
             }
         case 'inputChange':
             return {
@@ -55,26 +51,23 @@ const reducer = (state, action) =>{
 
 export default function TodoComponent(){
 
-    const [state, dispatch] = useReducer(reducer, {
-        task: "",
-        todos: InitialList,
-        editId: null,
-        editingTask: ""
-    })
+    const [state, dispatch] = useReducer(reducer, InitialList)
 
+    const editRef = useRef() 
 
-    const handleButtonClick = () =>{
+    const newTodoRef = useRef()
+
+    const handleAddTodo = () =>{
         dispatch({
             type: 'addedTodo',
-            id: ID++,
-            task: state.task
+            task: newTodoRef.current.value
         })
     }
 
     const handleInputChange = (e) => {
         dispatch({
             type: 'inputChange',
-            task: e.target.value
+            payload: {task: e.target.value}
         })
     }
 
@@ -93,48 +86,43 @@ export default function TodoComponent(){
         })
     }
 
-    const handleSave = (id, task) => {
+    const handleSave = (id) => {
         dispatch({
             type: 'save',
             id: id,
-            task: task
-        })
-    }
-
-    const handleInputEdit = (e) =>{
-        dispatch({
-            type: 'inputEdit',
-            task: e.target.value
+            task: editRef.current.value
         })
     }
     console.log("State :",state,"\nTodo :",state.todos)
     return(
         <div>
             <input 
-            value={state.task}
-            onChange={handleInputChange}
+                ref={newTodoRef}
             />
-            <button onClick={handleButtonClick}>Add</button>
-            {state.todos.map((todo)=>(
+            <button onClick={handleAddTodo}>Add</button>
+            {state.map((todo)=>(
                 <div key={todo.id}>
+
                     {state.editId === todo.id ? (
-                        <input value={state.editingTask} onChange={handleInputEdit}/>
+                        <>
+                            <input ref={editRef} defaultValue={todo.task} autoFocus/>
+                            <button onClick={() => handleSave(todo.id)}>Save</button>
+                        </>
                     ) : (
-                        <span>{todo.task}</span>
+                        <>
+                            <span>{todo.task}</span>
+                            <button onClick={() => handleDelete(todo.id)}>Delete</button>
+                            <button onClick={() => handleEdit(todo.id)}>Edit</button>
+                        </>
                     )}
-                    <button onClick={() => handleDelete(todo.id)}>Delete</button>
-                    {state.editId === todo.id ? (
-                        <button onClick={() => handleSave(todo.id, state.editingTask)}>Save</button>
-                    ) : (
-                        <button onClick={() => handleEdit(todo.id, todo.task)}>Edit</button>
-                    )}
+
+                    
                 </div>
             ))}
         </div>
     )
 }
 
-let ID = 5
 const InitialList = [
     {id:1, task:'Clean kitchen'},
     {id:2, task:'Walk the dog'},
