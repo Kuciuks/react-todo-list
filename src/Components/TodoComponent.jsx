@@ -23,6 +23,12 @@ const reducer = (state, action) =>{
                 ...state,
                 todos: state.todos.filter(todo => todo.id !== action.id)
             }
+        case 'edit':
+            return{
+                ...state,
+                editId: action.id,
+                editingTask: action.task
+            }
     }
 }
 
@@ -30,7 +36,9 @@ export default function TodoComponent(){
 
     const [state, dispatch] = useReducer(reducer, {
         task: "",
-        todos: InitialList
+        todos: InitialList,
+        editId: null,
+        editingTask: ""
     })
 
 
@@ -56,13 +64,15 @@ export default function TodoComponent(){
         })
     }
 
-    const handleEdit = (id) => {
+    const handleEdit = (id, task) => {
         dispatch({
             type: 'edit',
-            id: id
+            id: id,
+            task: task
         })
     }
 
+    console.log("State :",state,"\nTodo :",state.todos)
     return(
         <div>
             <input 
@@ -72,9 +82,17 @@ export default function TodoComponent(){
             <button onClick={handleButtonClick}>Add</button>
             {state.todos.map((todo)=>(
                 <div key={todo.id}>
-                    {todo.task}
+                    {state.editId === todo.id ? (
+                        <input value={state.editingTask} onChange={(e) => handleInputChange(e,todo.id)}/>
+                    ) : (
+                        <span>{todo.task}</span>
+                    )}
                     <button onClick={() => handleDelete(todo.id)}>Delete</button>
-                    <button onClick={() => handleEdit(todo.id)}>Edit</button>
+                    {state.editId === todo.id ? (
+                        <button onClick={() => handleEdit(todo.id, state.editingTask)}>Save</button>
+                    ) : (
+                        <button onClick={() => handleEdit(todo.id, todo.task)}>Edit</button>
+                    )}
                 </div>
             ))}
         </div>
