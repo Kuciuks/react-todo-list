@@ -29,6 +29,27 @@ const reducer = (state, action) =>{
                 editId: action.id,
                 editingTask: action.task
             }
+        case 'save':
+            return{
+                ...state,
+                editingTask: "",
+                editId: null,
+                todos: state.todos.map(todo => {
+                    if(todo.id == state.editId){
+                        return{
+                            ...todo,
+                            task: action.task
+                        }
+                    }else{
+                        return todo
+                    }
+                })
+            }
+        case 'inputEdit':
+            return{
+                ...state,
+                editingTask: action.task
+            }
     }
 }
 
@@ -72,6 +93,20 @@ export default function TodoComponent(){
         })
     }
 
+    const handleSave = (id, task) => {
+        dispatch({
+            type: 'save',
+            id: id,
+            task: task
+        })
+    }
+
+    const handleInputEdit = (e) =>{
+        dispatch({
+            type: 'inputEdit',
+            task: e.target.value
+        })
+    }
     console.log("State :",state,"\nTodo :",state.todos)
     return(
         <div>
@@ -83,13 +118,13 @@ export default function TodoComponent(){
             {state.todos.map((todo)=>(
                 <div key={todo.id}>
                     {state.editId === todo.id ? (
-                        <input value={state.editingTask} onChange={(e) => handleInputChange(e,todo.id)}/>
+                        <input value={state.editingTask} onChange={handleInputEdit}/>
                     ) : (
                         <span>{todo.task}</span>
                     )}
                     <button onClick={() => handleDelete(todo.id)}>Delete</button>
                     {state.editId === todo.id ? (
-                        <button onClick={() => handleEdit(todo.id, state.editingTask)}>Save</button>
+                        <button onClick={() => handleSave(todo.id, state.editingTask)}>Save</button>
                     ) : (
                         <button onClick={() => handleEdit(todo.id, todo.task)}>Edit</button>
                     )}
