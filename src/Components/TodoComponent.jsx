@@ -5,10 +5,10 @@ const reducer = (state, {type, payload}) =>{
     switch(type){
         case 'addedTodo':
             return {
-                ...state,
-                todos: [
-                    ...state.todos,
-                    {
+                ...state, //creates a shalow copy of the state object
+                todos: [ //targets the todos property (Array)
+                    ...state.todos, //creates a shalow copy of the todos property (Array)
+                    { //creates a new item (Object) in the todos property (Array)
                         id: crypto.randomUUID(),
                         task: payload.task
                     }
@@ -22,7 +22,7 @@ const reducer = (state, {type, payload}) =>{
         case 'delete':
             return {
                 ...state,
-                todos: state.todos.filter(todo => todo.id !== payload.id)
+                todos: state.todos.filter(todo => todo.id !== payload.id) //Maps over the state todos property (Array) and filters out the Array item whichs id matches the payload.id
             }
         case 'edit':
             return{
@@ -32,22 +32,17 @@ const reducer = (state, {type, payload}) =>{
         case 'save':
             return{
                 ...state,
-                editId: null,
-                todos: state.todos.map(todo => {
-                    if(todo.id == state.editId){
+                editId: null, //resets the selected items id in the todos property (Array)
+                todos: state.todos.map(todo => { 
+                    if(todo.id == state.editId){ //if the Array items id matches the selected items id
                         return{
-                            ...todo,
-                            task: payload.task
+                            ...todo, //creates a shalow copy of the select item
+                            task: payload.task //edits the task property
                         }
                     }else{
-                        return todo
+                        return todo //returns the default Array item
                     }
                 })
-            }
-        case 'inputEdit':
-            return{
-                ...state,
-                editingTask: action.task
             }
     }
 }
