@@ -1,14 +1,14 @@
 import { useReducer, useRef } from "react"
 
 
-const reducer = (state, action) =>{
+const reducer = (state, {type, payload}) =>{
     switch(action.type){
         case 'addedTodo':
-            return {
-                ...state,
+            return [...state,
+            {
                 id: crypto.randomUUID(),
                 task: action.task
-            }
+            }]
         case 'inputChange':
             return {
                 ...state,
@@ -74,23 +74,27 @@ export default function TodoComponent(){
     const handleDelete = (id) =>{
         dispatch({
             type: 'delete',
-            id: id
+            payload: {id: id}
         })
     }
 
     const handleEdit = (id, task) => {
         dispatch({
             type: 'edit',
-            id: id,
-            task: task
+            payload: {
+                id: id,
+                task: task
+            }
         })
     }
 
     const handleSave = (id) => {
         dispatch({
             type: 'save',
-            id: id,
-            task: editRef.current.value
+            payload: {
+                id: id,
+                task: editRef.current.value
+            }
         })
     }
     console.log("State :",state,"\nTodo :",state.todos)
