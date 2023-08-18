@@ -1,0 +1,18 @@
+.item-container{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.item-container > span {
+    margin-right: 10px;
+}

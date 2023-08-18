@@ -1,5 +1,5 @@
 import { useReducer, useRef } from "react"
-
+import '../Styles/TodoComponent.css'
 
 const reducer = (state, {type, payload}) =>{
     switch(type){
@@ -93,14 +93,16 @@ export default function TodoComponent(){
     }
     console.log("State :",state,"\nTodos :",state.todos)
     return(
-        <div>
-
-            <input ref={newTodoRef}/>
-            <button onClick={handleAddTodo}>Add</button>
-
+        <div className="todo-container">
+            
+            <div>
+                <input ref={newTodoRef}/>
+                <button onClick={handleAddTodo}>Add</button>
+            </div>
+            
             {state.todos.map((todo)=>(
 
-                <div key={todo.id}>
+                <div className="item-container" key={todo.id}>
 
                     {state.editId === todo.id ? (
                         <>

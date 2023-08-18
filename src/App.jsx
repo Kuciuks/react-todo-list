@@ -8,7 +8,7 @@ function App() {
     const {mode} = useMode() 
 
     return(
-        <div className="container" style={{backgroundColor: mode == "dark" ? "white" : "black"}}>    
+        <div className="container" style={{backgroundColor: mode == "dark" ? "white" : "black", color: mode == "dark" ? "black" : "white"}}>    
                 <ToggleButton />
                 <TodoComponent />
         </div>
