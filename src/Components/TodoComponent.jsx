@@ -2,17 +2,22 @@ import { useReducer, useRef } from "react"
 
 
 const reducer = (state, {type, payload}) =>{
-    switch(action.type){
+    switch(type){
         case 'addedTodo':
-            return [...state,
-            {
-                id: crypto.randomUUID(),
-                task: action.task
-            }]
+            return {
+                ...state,
+                todos: [
+                    ...state.todos,
+                    {
+                        id: crypto.randomUUID(),
+                        task: payload.task
+                    }
+                ]
+            }
         case 'inputChange':
             return {
                 ...state,
-                task: action.task
+                task: payload
             }
         case 'delete':
             return {
@@ -21,9 +26,8 @@ const reducer = (state, {type, payload}) =>{
             }
         case 'edit':
             return{
-                ...state,
-                editId: action.id,
-                editingTask: action.task
+                ...todos,
+                editId: payload.id
             }
         case 'save':
             return{
@@ -51,23 +55,20 @@ const reducer = (state, {type, payload}) =>{
 
 export default function TodoComponent(){
 
-    const [state, dispatch] = useReducer(reducer, InitialList)
+    const [state, dispatch] = useReducer(reducer, {
+        todos: InitialList,
+        editId: null
+    })
 
     const editRef = useRef() 
 
     const newTodoRef = useRef()
 
+
     const handleAddTodo = () =>{
         dispatch({
             type: 'addedTodo',
-            task: newTodoRef.current.value
-        })
-    }
-
-    const handleInputChange = (e) => {
-        dispatch({
-            type: 'inputChange',
-            payload: {task: e.target.value}
+            payload: {task: newTodoRef.current.value}
         })
     }
 
@@ -78,12 +79,11 @@ export default function TodoComponent(){
         })
     }
 
-    const handleEdit = (id, task) => {
+    const handleEdit = (id) => {
         dispatch({
             type: 'edit',
             payload: {
-                id: id,
-                task: task
+                id: id
             }
         })
     }
@@ -97,14 +97,15 @@ export default function TodoComponent(){
             }
         })
     }
-    console.log("State :",state,"\nTodo :",state.todos)
+    console.log("State :",state,"\nTodos :",state.todos)
     return(
         <div>
-            <input 
-                ref={newTodoRef}
-            />
+
+            <input ref={newTodoRef}/>
             <button onClick={handleAddTodo}>Add</button>
-            {state.map((todo)=>(
+
+            {state.todos.map((todo)=>(
+
                 <div key={todo.id}>
 
                     {state.editId === todo.id ? (
@@ -119,10 +120,10 @@ export default function TodoComponent(){
                             <button onClick={() => handleEdit(todo.id)}>Edit</button>
                         </>
                     )}
-
                     
                 </div>
             ))}
+
         </div>
     )
 }
