@@ -64,6 +64,7 @@ export default function TodoComponent(){
             type: 'addedTodo',
             payload: {task: newTodoRef.current.value}
         })
+        newTodoRef.current.value = ""
     }
 
     const handleDelete = (id) =>{
@@ -94,7 +95,7 @@ export default function TodoComponent(){
     console.log("State :",state,"\nTodos :",state.todos)
     return(
         <div className="todo-container">
-            
+
             <div>
                 <input ref={newTodoRef}/>
                 <button onClick={handleAddTodo}>Add</button>
