@@ -22,23 +22,22 @@ const reducer = (state, {type, payload}) =>{
         case 'delete':
             return {
                 ...state,
-                todos: state.todos.filter(todo => todo.id !== action.id)
+                todos: state.todos.filter(todo => todo.id !== payload.id)
             }
         case 'edit':
             return{
-                ...todos,
+                ...state,
                 editId: payload.id
             }
         case 'save':
             return{
                 ...state,
-                editingTask: "",
                 editId: null,
                 todos: state.todos.map(todo => {
                     if(todo.id == state.editId){
                         return{
                             ...todo,
-                            task: action.task
+                            task: payload.task
                         }
                     }else{
                         return todo
