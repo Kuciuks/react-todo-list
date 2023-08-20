@@ -4,26 +4,23 @@ const TodoListContext = createContext()
 
 const TodoListProvider = ({children}) => {
 
-    const [todoList, setTodoList] = useState()
+    const [todoList, setTodoList] = useState([])
 
     const manageTodoList = (todos,text) => {
-        todos.forEach(element => {
-            if(element.task.includes(text)){
-                todoArray.push(element)
-            }
-        });
+        const filteredTodos = todos.filter((element) =>{
+            element.task.includes(text)
+        })
+        setTodoList(filteredTodos)
     }
 
 
     return(
         <TodoListContext.Provider value={{
-            todoList, importTodoList: (todos,text) => manageTodoList}}>
+            todoList, importTodoList: manageTodoList}}>
             {children}
         </TodoListContext.Provider>
     )
 }
-
-let todoArray = []
 
 export const useTodoList = () => useContext(TodoListContext)
 
