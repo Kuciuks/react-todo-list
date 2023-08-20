@@ -1,5 +1,7 @@
 import { useReducer, useRef } from "react"
 import '../Styles/TodoComponent.css'
+import checkedImage from '../Assets/checked.png';
+import crossImage from '../assets/multiply.png'
 
 const reducer = (state, {type, payload}) =>{
     switch(type){
@@ -139,15 +141,9 @@ export default function TodoComponent({searchText}){
                         </>
                     ) : (
                         <>
-                            <div onClick={() => handleDone(todo.id)}>
-                                {
-                                    todo.done ? (
-                                        <img src="../assets/checked.png" alt="Done"/>
-                                    ) : (
-                                        "Done"
-                                    )
-                                }
-                            </div>
+                            {
+                                <img onClick={() => handleDone(todo.id)} className={todo.done ? 'img-done' : 'img-done img-not-done'} src={todo.done ? checkedImage : crossImage} alt="Done"/>
+                            }
                             
                             <span>{todo.task}</span>
                             <button onClick={() => handleDelete(todo.id)}>Delete</button>
@@ -161,7 +157,6 @@ export default function TodoComponent({searchText}){
         </div>
     )
 }
-let toggleDone = false //finisih adding img,btn(or anything else but best btn prolly) toggling capabilities
 
 const InitialList = [ 
     {id:1, task:'Clean kitchen'},

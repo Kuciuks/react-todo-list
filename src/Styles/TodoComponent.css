@@ -16,3 +16,21 @@
 .item-container > span {
     margin-right: 10px;
 }
+
+@keyframes inOutAnimation{
+    0%{
+
+    }
+    100%{
+
+    }
+}
+
+.img-done{
+    width: 20px;
+    transition: 2s;
+}
+
+.img-not-done{
+    width: 30px;
+}
