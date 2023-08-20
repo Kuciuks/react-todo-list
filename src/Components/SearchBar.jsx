@@ -1,18 +1,19 @@
 import { useState } from 'react'
-import {useTodoList} from '../Provider/TodoListProvider'
+import TodoComponent from '../Components/TodoComponent'
 
 export default function SearchBar() {
 
     const [input, setInput] = useState("")
 
-    const {todoList, setTodosList} = useTodoList()
-
     const handleInput = (e) => {
-        setInput(e.target.value)
-        setTodosList(input)
+        const text = e.target.value
+        setInput(text)
     }
 
     return(
-        <input value={input} onChange={handleInput}></input>
+        <div>
+            <input value={input} onChange={handleInput}></input>
+            <TodoComponent searchText={input} />
+        </div>
     )
 }

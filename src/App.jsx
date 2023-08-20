@@ -12,7 +12,6 @@ function App() {
         <div className="container" style={{backgroundColor: mode == "dark" ? "white" : "black", color: mode == "dark" ? "black" : "white"}}>    
                 <ToggleButton />
                 <SearchBar />
-                <TodoComponent />
         </div>
     )
 }

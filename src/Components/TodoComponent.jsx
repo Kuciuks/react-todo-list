@@ -1,6 +1,5 @@
 import { useReducer, useRef } from "react"
 import '../Styles/TodoComponent.css'
-import {useTodoList} from '../Provider/TodoListProvider'
 
 const reducer = (state, {type, payload}) =>{
     switch(type){
@@ -48,7 +47,8 @@ const reducer = (state, {type, payload}) =>{
     }
 }
 
-export default function TodoComponent(){
+// eslint-disable-next-line react/prop-types
+export default function TodoComponent({searchText}){
 
     const [state, dispatch] = useReducer(reducer, {
         todos: InitialList,
@@ -56,10 +56,11 @@ export default function TodoComponent(){
     })
 
     const editRef = useRef() 
-
     const newTodoRef = useRef()
 
-    const {todoList, setTodoList} = useTodoList(InitialList)
+    const filteredTodos = state.todos.filter(todo =>
+        todo.task.includes(searchText)
+    )
 
     const handleAddTodo = () =>{
         dispatch({
@@ -67,7 +68,6 @@ export default function TodoComponent(){
             payload: {task: newTodoRef.current.value}
         })
         newTodoRef.current.value = ""
-        setTodoList(todoList, "")
     }
 
     const handleDelete = (id) =>{
@@ -104,7 +104,7 @@ export default function TodoComponent(){
                 <button onClick={handleAddTodo}>Add</button>
             </div>
             
-            {state.todos.map((todo)=>(
+            {filteredTodos.map((todo)=>(
 
                 <div className="item-container" key={todo.id}>
 
@@ -128,7 +128,7 @@ export default function TodoComponent(){
     )
 }
 
-const InitialList = [
+const InitialList = [ 
     {id:1, task:'Clean kitchen'},
     {id:2, task:'Walk the dog'},
     {id:3, task:'Walk the cat'},
