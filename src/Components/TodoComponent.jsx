@@ -44,6 +44,10 @@ const reducer = (state, {type, payload}) =>{
                     }
                 })
             }
+            case 'done':
+                return(
+                    <img src="../assets/checked.png"></img>
+                )
     }
 }
 
@@ -96,6 +100,16 @@ export default function TodoComponent({searchText}){
         })
     }
 
+    const handleDone = (id) => {
+        dispatch({
+            type: 'done',
+            payload: {
+                id: id
+            }
+        })
+    }
+
+
     return(
         <div className="todo-container">
 
@@ -115,6 +129,7 @@ export default function TodoComponent({searchText}){
                         </>
                     ) : (
                         <>
+                            <button onClick={() => handleDone(todo.id)}>Save</button>
                             <span>{todo.task}</span>
                             <button onClick={() => handleDelete(todo.id)}>Delete</button>
                             <button onClick={() => handleEdit(todo.id)}>Edit</button>
@@ -127,6 +142,7 @@ export default function TodoComponent({searchText}){
         </div>
     )
 }
+let toggleDone = false //finisih adding img,btn(or anything else but best btn prolly) toggling capabilities
 
 const InitialList = [ 
     {id:1, task:'Clean kitchen'},
