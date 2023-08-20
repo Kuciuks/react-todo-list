@@ -45,9 +45,19 @@ const reducer = (state, {type, payload}) =>{
                 })
             }
             case 'done':
-                return(
-                    <img src="../assets/checked.png"></img>
-                )
+                return {
+                        ...state,
+                        todos: state.todos.map(todo => {
+                            if(todo.id == payload.id){
+                                return{
+                                    ...todo,
+                                    done: !todo.done
+                                }
+                            }
+                            return todo;
+                        })
+                    }
+                
     }
 }
 
@@ -62,9 +72,9 @@ export default function TodoComponent({searchText}){
     const editRef = useRef() 
     const newTodoRef = useRef()
 
-    const filteredTodos = state.todos.filter(todo =>
+    const filteredTodos = searchText ? state.todos.filter(todo =>
         todo.task.includes(searchText)
-    )
+    ) : state.todos;
 
     const handleAddTodo = () =>{
         dispatch({
@@ -129,7 +139,16 @@ export default function TodoComponent({searchText}){
                         </>
                     ) : (
                         <>
-                            <button onClick={() => handleDone(todo.id)}>Save</button>
+                            <div onClick={() => handleDone(todo.id)}>
+                                {
+                                    todo.done ? (
+                                        <img src="../assets/checked.png" alt="Done"/>
+                                    ) : (
+                                        "Done"
+                                    )
+                                }
+                            </div>
+                            
                             <span>{todo.task}</span>
                             <button onClick={() => handleDelete(todo.id)}>Delete</button>
                             <button onClick={() => handleEdit(todo.id)}>Edit</button>
