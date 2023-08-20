@@ -1,5 +1,6 @@
 import { useReducer, useRef } from "react"
 import '../Styles/TodoComponent.css'
+import {useTodoList} from '../Provider/TodoListProvider'
 
 const reducer = (state, {type, payload}) =>{
     switch(type){
@@ -58,6 +59,7 @@ export default function TodoComponent(){
 
     const newTodoRef = useRef()
 
+    const {todoList, setTodoList} = useTodoList(InitialList)
 
     const handleAddTodo = () =>{
         dispatch({
@@ -65,6 +67,7 @@ export default function TodoComponent(){
             payload: {task: newTodoRef.current.value}
         })
         newTodoRef.current.value = ""
+        setTodoList(todoList, "")
     }
 
     const handleDelete = (id) =>{
@@ -92,7 +95,7 @@ export default function TodoComponent(){
             }
         })
     }
-    console.log("State :",state,"\nTodos :",state.todos)
+
     return(
         <div className="todo-container">
 
