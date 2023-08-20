@@ -13,7 +13,7 @@ export default function SearchBar() {
     return(
         <div>
             <input value={input} onChange={handleInput}></input>
-            <TodoComponent searchText={input} />
+            <TodoComponent searchText={input.length > 0 ? input : ""} />
         </div>
     )
 }
