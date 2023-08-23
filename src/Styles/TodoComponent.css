@@ -2,8 +2,9 @@
     height: 30px;
     width: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin: 3px;
 }
 
 .todo-container{
@@ -11,12 +12,23 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: 5px solid #668B8E;
+    padding: 5px;
+    background-color: #213A43;
 }
 
-.item-container > span {
+.item-container span {
     margin-right: 10px;
+    margin-left: 10px;
 }
 
+.item-container button{
+    float: right;
+}
+
+.btn-add {
+    margin-bottom: 5px;
+}
 @keyframes inOutAnimation{
     0%{
 
@@ -32,5 +44,11 @@
 }
 
 .img-not-done{
-    width: 30px;
+    width: 25px;
+    transition: 2s;
+}
+
+button{
+    color: #424242;
+    background-color: D4D9CD;
 }

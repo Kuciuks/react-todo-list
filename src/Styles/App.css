@@ -5,8 +5,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    transition: 2s;
-    background-color: antiquewhite;
+    color: white
 }
 
 .container > div {

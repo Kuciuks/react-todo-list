@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import TodoComponent from '../Components/TodoComponent'
+import '../Styles/SearchBar.css'
 
 export default function SearchBar() {
 
@@ -11,8 +12,8 @@ export default function SearchBar() {
     }
 
     return(
-        <div>
-            <input value={input} onChange={handleInput}></input>
+        <div className='search-bar-div'>
+            <input className='search-bar' value={input} onChange={handleInput} placeholder='Search...'></input>
             <TodoComponent searchText={input.length > 0 ? input : ""} />
         </div>
     )

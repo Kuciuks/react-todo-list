@@ -126,8 +126,8 @@ export default function TodoComponent({searchText}){
         <div className="todo-container">
 
             <div>
-                <input ref={newTodoRef}/>
-                <button onClick={handleAddTodo}>Add</button>
+                <input ref={newTodoRef} placeholder="New todo..."/>
+                <button className='btn-add'onClick={handleAddTodo} >Add</button>
             </div>
             
             {filteredTodos.map((todo)=>(
@@ -136,13 +136,13 @@ export default function TodoComponent({searchText}){
 
                     {state.editId === todo.id ? (
                         <>
-                            <input ref={editRef} defaultValue={todo.task} autoFocus/>
+                            <input ref={editRef} defaultValue={todo.task} autoFocus />
                             <button onClick={() => handleSave(todo.id)}>Save</button>
                         </>
                     ) : (
                         <>
                             {
-                                <img onClick={() => handleDone(todo.id)} className={todo.done ? 'img-done' : 'img-done img-not-done'} src={todo.done ? checkedImage : crossImage} alt="Done"/>
+                                <img onClick={() => handleDone(todo.id)} className={todo.done ? 'img-done' : 'img-not-done'} src={todo.done ? checkedImage : crossImage} alt="Done"/>
                             }
                             
                             <span>{todo.task}</span>

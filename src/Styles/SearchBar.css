@@ -1,0 +1,11 @@
+.search-bar-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.search-bar{
+    margin-bottom: 10px;
+}
